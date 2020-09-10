@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import dayjs from "dayjs";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Typography from "@material-ui/core/Typography";
@@ -12,18 +12,28 @@ function App() {
   const [dateTime, setDateTime] = useState(null);
   const [dateDiff, setDateDiff] = useState(null);
   const [intervalsFunction, setIntervalsFunction] = useState(0);
+  const SECOND = 1000;
+  const LOCAL_STORAGE_DATE_KEY = "day-counter.time";
 
   const startTimer = (date) => {
     setDateTime(date);
+    window.localStorage.setItem(LOCAL_STORAGE_DATE_KEY, date);
     clearInterval(intervalsFunction);
     setIntervalsFunction(getInterval(date));
   };
+
+  useEffect(() => {
+    const storedDate = window.localStorage.getItem(LOCAL_STORAGE_DATE_KEY);
+    if (storedDate) {
+      startTimer(storedDate);
+    }
+  }, []);
 
   const getInterval = (date) => {
     return setInterval(() => {
       const dateDiff = dayjs(date).diff(dayjs());
       setDateDiff(dateDiff);
-    }, 1000);
+    }, SECOND);
   };
 
   const useStyles = makeStyles((theme) => ({
@@ -49,7 +59,7 @@ function App() {
           setDateTime={setDateTime}
           startTimer={startTimer}
         />
-        {dateTime > 0 ? <Timer dateDiff={dateDiff} /> : ""}
+        <Timer dateDiff={dateDiff} />
       </div>
     </Container>
   );

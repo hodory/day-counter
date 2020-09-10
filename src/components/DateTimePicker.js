@@ -3,24 +3,24 @@ import dayjs from "dayjs";
 import DateFnsUtils from "@date-io/dayjs";
 import {
   DateTimePicker as MuiDateTimePicker,
-  KeyboardDateTimePicker,
   MuiPickersUtilsProvider,
 } from "@material-ui/pickers";
 
 const DateTimePicker = ({ dateTime: selectedDate, startTimer }) => {
   const tomorrow = dayjs().add(1, "day").toDate();
 
-  const onClickHandler = (date) => {
+  const onChangeHandler = (date) => {
     startTimer(date);
   };
 
   return (
     <>
       <MuiPickersUtilsProvider utils={DateFnsUtils}>
-        <KeyboardDateTimePicker
-          value={selectedDate}
-          onChange={onClickHandler}
+        <MuiDateTimePicker
+          variant="inline"
           label="Type or Select the date"
+          value={selectedDate}
+          onChange={onChangeHandler}
           onError={console.log}
           minDate={tomorrow}
           format="YYYY/MM/DD hh:mm A"
