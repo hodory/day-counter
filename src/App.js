@@ -1,13 +1,12 @@
 import React, { useState } from "react";
 import dayjs from "dayjs";
-import "./App.css";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import Typography from "@material-ui/core/Typography";
+import { makeStyles } from "@material-ui/core/styles";
+import Container from "@material-ui/core/Container";
+import "fontsource-roboto";
 import Timer from "./components/Timer";
 import DateTimePicker from "./components/DateTimePicker";
-
-const duration = require("dayjs/plugin/duration");
-const relativeTime = require("dayjs/plugin/relativeTime");
-dayjs.extend(duration); // use plugin
-dayjs.extend(relativeTime); // use plugin
 
 function App() {
   const [dateTime, setDateTime] = useState(null);
@@ -27,15 +26,32 @@ function App() {
     }, 1000);
   };
 
+  const useStyles = makeStyles((theme) => ({
+    paper: {
+      marginTop: theme.spacing(8),
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+    },
+  }));
+
+  const classes = useStyles();
+
   return (
-    <div className="App">
-      <DateTimePicker
-        dateTime={dateTime}
-        setDateTime={setDateTime}
-        startTimer={startTimer}
-      />
-      {dateTime > 0 ? <Timer dateDiff={dateDiff} /> : ""}
-    </div>
+    <Container component="main" maxWidth="xs">
+      <CssBaseline />
+      <div className={classes.paper}>
+        <Typography component="h1" variant="h1">
+          D-Day Counter
+        </Typography>
+        <DateTimePicker
+          dateTime={dateTime}
+          setDateTime={setDateTime}
+          startTimer={startTimer}
+        />
+        {dateTime > 0 ? <Timer dateDiff={dateDiff} /> : ""}
+      </div>
+    </Container>
   );
 }
 
