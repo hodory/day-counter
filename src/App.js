@@ -7,7 +7,7 @@ import Container from "@material-ui/core/Container";
 import "fontsource-roboto";
 import Timer from "./components/Timer";
 import DateTimePicker from "./components/DateTimePicker";
-import FlipNumbers from "react-flip-numbers";
+
 const duration = require("dayjs/plugin/duration");
 dayjs.extend(duration);
 
