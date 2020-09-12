@@ -6,10 +6,15 @@ import {
   MuiPickersUtilsProvider,
 } from "@material-ui/pickers";
 
-const DateTimePicker = ({ dateTime: selectedDate, startTimer }) => {
+const DateTimePicker = ({
+  dateTime: selectedDate,
+  startTimer,
+  setStartDateTime,
+}) => {
   const tomorrow = dayjs().add(1, "day").toDate();
 
   const onChangeHandler = (date) => {
+    setStartDateTime();
     startTimer(date);
   };
 

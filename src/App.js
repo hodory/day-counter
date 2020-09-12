@@ -7,32 +7,56 @@ import Container from "@material-ui/core/Container";
 import "fontsource-roboto";
 import Timer from "./components/Timer";
 import DateTimePicker from "./components/DateTimePicker";
+import FlipNumbers from "react-flip-numbers";
+const duration = require("dayjs/plugin/duration");
+dayjs.extend(duration);
 
 function App() {
+  const [startTime, setStartTime] = useState(null);
+  const [dateDiffFromStartDate, setDateDiffFromStartDate] = useState(null);
   const [dateTime, setDateTime] = useState(null);
-  const [dateDiff, setDateDiff] = useState(null);
+  const [dateDiffFromCurrent, setDateDiffFromCurrent] = useState(null);
   const [intervalsFunction, setIntervalsFunction] = useState(0);
   const SECOND = 1000;
-  const LOCAL_STORAGE_DATE_KEY = "day-counter.time";
+  const LOCAL_STORAGE_START_DATE_KEY = "day-counter.startDateTime";
+  const LOCAL_STORAGE_TARGET_DATE_KEY = "day-counter.targetDateTime";
 
   const startTimer = (date) => {
     setDateTime(date);
-    window.localStorage.setItem(LOCAL_STORAGE_DATE_KEY, date);
+    localStorage.setItem(LOCAL_STORAGE_TARGET_DATE_KEY, date);
     clearInterval(intervalsFunction);
     setIntervalsFunction(getInterval(date));
   };
 
+  const setStartDateTime = () => {
+    const now = dayjs().toDate();
+    setStartTime(now);
+    localStorage.setItem(LOCAL_STORAGE_START_DATE_KEY, now);
+  };
+
+  const getDateDiffFromStartDate = () => {
+    return Math.floor(dayjs(dateTime).diff(dayjs(startTime)) / 1000);
+  };
+
   useEffect(() => {
-    const storedDate = window.localStorage.getItem(LOCAL_STORAGE_DATE_KEY);
+    const storedDate = localStorage.getItem(LOCAL_STORAGE_TARGET_DATE_KEY);
+    const storedStartDateTime = localStorage.getItem(
+      LOCAL_STORAGE_START_DATE_KEY
+    );
+
     if (storedDate) {
       startTimer(storedDate);
+    }
+
+    if (storedStartDateTime) {
+      setStartTime(storedStartDateTime);
     }
   }, []);
 
   const getInterval = (date) => {
     return setInterval(() => {
       const dateDiff = dayjs(date).diff(dayjs());
-      setDateDiff(dateDiff);
+      setDateDiffFromCurrent(dateDiff);
     }, SECOND);
   };
 
@@ -58,8 +82,12 @@ function App() {
           dateTime={dateTime}
           setDateTime={setDateTime}
           startTimer={startTimer}
+          setStartDateTime={setStartDateTime}
         />
-        <Timer dateDiff={dateDiff} />
+        <Timer
+          dateDiffMilli={dateDiffFromCurrent}
+          getDateDiffFromStartDate={getDateDiffFromStartDate}
+        />
       </div>
     </Container>
   );
