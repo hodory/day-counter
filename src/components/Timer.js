@@ -47,7 +47,6 @@ const Timer = ({ dateDiffMilli, getDateDiffFromStartDate }) => {
     <>
       {remainSecond() > 0 ? (
         <>
-          {getDateDiffFromStartDate()}
           <Typography component="h2" variant="h1">
             {getDays()}
           </Typography>
