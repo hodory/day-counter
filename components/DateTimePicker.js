@@ -18,7 +18,21 @@ const DateTimePicker = ({
     startTimer(date);
   };
 
-  return <></>;
+  return (
+    <>
+      <MuiPickersUtilsProvider utils={DateFnsUtils}>
+        <MuiDateTimePicker
+          variant="inline"
+          label="Type or Select the date"
+          value={selectedDate}
+          onChange={onChangeHandler}
+          onError={console.log}
+          minDate={tomorrow}
+          format="YYYY/MM/DD hh:mm A"
+        />
+      </MuiPickersUtilsProvider>
+    </>
+  );
 };
 
 export default DateTimePicker;

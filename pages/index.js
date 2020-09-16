@@ -77,8 +77,8 @@ export default function Home() {
         <DateTimePicker
           dateTime={dateTime}
           setDateTime={setDateTime}
-          // startTimer={startTimer}
-          // setStartDateTime={setStartDateTime}
+          startTimer={startTimer}
+          setStartDateTime={setStartDateTime}
         />
         <Timer
           dateDiffMilli={dateDiffFromCurrent}
