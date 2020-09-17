@@ -1,7 +1,12 @@
-import '../styles/globals.css'
+import DateContext from "../context/DateContext";
+import "../styles/globals.css";
 
 function MyApp({ Component, pageProps }) {
-  return <Component {...pageProps} />
+  return (
+    <DateContext.Provider>
+      <Component {...pageProps} />
+    </DateContext.Provider>
+  );
 }
 
-export default MyApp
+export default MyApp;
