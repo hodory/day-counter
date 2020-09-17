@@ -11,5 +11,6 @@ if (!firebase.apps.length) {
     credential: firebase.credential.cert(serviceAccountObject),
     databaseURL: FIREBASE_API_URL,
   });
+  console.log(serviceAccountObject);
 }
 export const database = firebase.database();
