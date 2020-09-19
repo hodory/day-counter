@@ -12,12 +12,10 @@ import {
   LOCAL_STORAGE_TARGET_DATE_KEY,
   SECOND,
 } from "../const/";
-import { useRouter } from "next/router";
 import HomeButton from "../components/HomeButton";
 
 // TOOD : 중복 코드를 처리 합니다.
 export default function storedUrl({ startDateTime, targetDateTime }) {
-  const router = useRouter();
   const [startTime, setStartTime] = useState(null);
   const [dateTime, setDateTime] = useState(null);
   const [dateDiffFromCurrent, setDateDiffFromCurrent] = useState(null);
@@ -108,6 +106,8 @@ export async function getServerSideProps(context) {
     params: { id: parmasId },
   } = context;
   console.log(queryId);
+  const { BASE_URL, DATE_TIME_API_URL } = process.env;
+  const API_URL = `${BASE_URL}${DATE_TIME_API_URL}/${queryId}`;
   try {
     const {
       data: {
@@ -115,7 +115,7 @@ export async function getServerSideProps(context) {
         message,
       },
       status: statusCode,
-    } = await Axios.get(`${process.env.API_URL}${queryId}`);
+    } = await Axios.get(API_URL);
     console.log(startDateTime);
     return {
       props: {

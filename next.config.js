@@ -2,7 +2,8 @@ require("dotenv").config();
 
 module.exports = {
   env: {
-    API_URL: process.env.API_URL,
+    BASE_URL: process.env.BASE_URL,
+    DATE_TIME_API_URL: process.env.DATE_TIME_API_URL,
     FIREBASE_API_URL: process.env.FIREBASE_API_URL,
     FIREBASE_REF_DATETIME: process.env.FIREBASE_REF_DATETIME,
     FIREBASE_API_TYPE: process.env.FIREBASE_API_TYPE,

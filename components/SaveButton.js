@@ -36,7 +36,7 @@ const SaveButton = ({ startDateTime, targetDateTime }) => {
           data: { id },
           message,
         },
-      } = await Axios.post("/api/date-time", {
+      } = await Axios.post(process.env.DATE_TIME_API_URL, {
         startDateTime,
         targetDateTime,
       });
