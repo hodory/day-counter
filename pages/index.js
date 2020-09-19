@@ -6,6 +6,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Timer from "../components/Timer";
 import DateTimePicker from "../components/DateTimePicker";
+import SaveButton from "../components/SaveButton";
 
 const duration = require("dayjs/plugin/duration");
 dayjs.extend(duration);
@@ -84,6 +85,7 @@ export default function Home() {
           dateDiffMilli={dateDiffFromCurrent}
           getDateDiffFromStartDate={getDateDiffFromStartDate}
         />
+        <SaveButton startTime={startTime} targetDateTime={dateTime} />
       </div>
     </Container>
   );

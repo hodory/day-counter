@@ -26,7 +26,7 @@ const handleRequest = async (res, id) => {
     await ref.update(updateObject);
 
     const response = Object.assign(data.val(), updateObject);
-    res.status(200).json({ response, message: MSG_SUCCESS });
+    res.status(200).json({ data: response, message: MSG_SUCCESS });
   } catch (reject) {
     console.log("The read failed: " + reject.code);
     res.status(500).send("The read failed: " + reject.code);
