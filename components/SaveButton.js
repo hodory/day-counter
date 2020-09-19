@@ -4,12 +4,24 @@ import { makeStyles } from "@material-ui/core/styles";
 import SaveIcon from "@material-ui/icons/Save";
 import Axios from "axios";
 import { useRouter } from "next/router";
+import {
+  LOCAL_STORAGE_START_DATE_KEY,
+  LOCAL_STORAGE_TARGET_DATE_KEY,
+} from "../const";
 
 const useStyles = makeStyles((theme) => ({
   button: {
     margin: theme.spacing(2),
   },
 }));
+
+const setLocalStorage = (id, startDateTime, targetDateTime) => {
+  localStorage.setItem(`${LOCAL_STORAGE_START_DATE_KEY}.${id}`, startDateTime);
+  localStorage.setItem(
+    `${LOCAL_STORAGE_TARGET_DATE_KEY}.${id}`,
+    targetDateTime
+  );
+};
 
 const SaveButton = ({ startDateTime, targetDateTime }) => {
   const classes = useStyles();
@@ -31,6 +43,7 @@ const SaveButton = ({ startDateTime, targetDateTime }) => {
 
       setButtonText("Saved");
       setIsDisabled(true);
+      setLocalStorage(id, startDateTime, targetDateTime);
       router.push(`/${id}`);
     } catch (error) {
       const {

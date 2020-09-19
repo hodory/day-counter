@@ -12,9 +12,12 @@ import {
   LOCAL_STORAGE_TARGET_DATE_KEY,
   SECOND,
 } from "../const/";
+import { useRouter } from "next/router";
+import HomeButton from "../components/HomeButton";
 
 // TOOD : 중복 코드를 처리 합니다.
 export default function storedUrl({ startDateTime, targetDateTime }) {
+  const router = useRouter();
   const [startTime, setStartTime] = useState(null);
   const [dateTime, setDateTime] = useState(null);
   const [dateDiffFromCurrent, setDateDiffFromCurrent] = useState(null);
@@ -63,10 +66,15 @@ export default function storedUrl({ startDateTime, targetDateTime }) {
 
   const useStyles = makeStyles((theme) => ({
     paper: {
-      marginTop: theme.spacing(8),
+      marginTop: theme.spacing(2),
       display: "flex",
       flexDirection: "column",
       alignItems: "center",
+    },
+    fab: {
+      position: "absolute",
+      bottom: theme.spacing(2),
+      right: theme.spacing(3),
     },
   }));
 
@@ -88,6 +96,7 @@ export default function storedUrl({ startDateTime, targetDateTime }) {
           dateDiffMilli={dateDiffFromCurrent}
           getDateDiffFromStartDate={getDateDiffFromStartDate}
         />
+        <HomeButton fabClass={classes.fab} />
       </div>
     </Container>
   );
