@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import Axios from "axios";
 import dayjs from "dayjs";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Typography from "@material-ui/core/Typography";
@@ -6,14 +7,14 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Timer from "../components/Timer";
 import DateTimePicker from "../components/DateTimePicker";
-import SaveButton from "../components/SaveButton";
 import {
   LOCAL_STORAGE_START_DATE_KEY,
   LOCAL_STORAGE_TARGET_DATE_KEY,
   SECOND,
 } from "../const/";
 
-export default function Home() {
+// TOOD : 중복 코드를 처리 합니다.
+export default function storedUrl({ startDateTime, targetDateTime }) {
   const [startTime, setStartTime] = useState(null);
   const [dateTime, setDateTime] = useState(null);
   const [dateDiffFromCurrent, setDateDiffFromCurrent] = useState(null);
@@ -37,10 +38,12 @@ export default function Home() {
   };
 
   useEffect(() => {
-    const storedDate = localStorage.getItem(LOCAL_STORAGE_TARGET_DATE_KEY);
-    const storedStartDateTime = localStorage.getItem(
-      LOCAL_STORAGE_START_DATE_KEY
-    );
+    const storedDate = targetDateTime
+      ? dayjs(targetDateTime)
+      : localStorage.getItem(LOCAL_STORAGE_TARGET_DATE_KEY);
+    const storedStartDateTime = startDateTime
+      ? startDateTime
+      : localStorage.getItem(LOCAL_STORAGE_START_DATE_KEY);
 
     if (storedDate) {
       startTimer(storedDate);
@@ -85,8 +88,54 @@ export default function Home() {
           dateDiffMilli={dateDiffFromCurrent}
           getDateDiffFromStartDate={getDateDiffFromStartDate}
         />
-        <SaveButton startDateTime={startTime} targetDateTime={dateTime} />
       </div>
     </Container>
   );
+}
+
+export async function getServerSideProps(context) {
+  const {
+    query: { id: queryId },
+    params: { id: parmasId },
+  } = context;
+  console.log(queryId);
+  try {
+    const {
+      data: {
+        data: { startDateTime, targetDateTime },
+        message,
+      },
+      status: statusCode,
+    } = await Axios.get(`${process.env.API_URL}${queryId}`);
+    console.log(startDateTime);
+    return {
+      props: {
+        startDateTime,
+        targetDateTime,
+        statusCode,
+      },
+    };
+  } catch (err) {
+    console.error(err.response);
+    console.error(err.stack);
+    if (typeof err.response === "undefined") {
+      return {
+        props: {
+          error: {
+            message: err.toString(),
+            code: 500,
+          },
+        },
+      };
+    }
+    return {
+      props: {
+        posts: [],
+        statusCode:
+          typeof err.response.status !== "undefined"
+            ? err.response.status
+            : 500,
+      },
+    };
+  }
 }

@@ -31,7 +31,7 @@ const SaveButton = ({ startDateTime, targetDateTime }) => {
 
       setButtonText("Saved");
       setIsDisabled(true);
-      //   router.push(`/${id}`);
+      router.push(`/${id}`);
     } catch (error) {
       const {
         response: {
