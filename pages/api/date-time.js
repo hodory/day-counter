@@ -31,7 +31,7 @@ const handleRequest = async (res, request) => {
         lastSeenAt: dateTimeNow.toGMTString(),
       });
 
-    res.status(200).json({ data: request, message: MSG_SUCCESS });
+    res.status(200).json({ data: {...request,id:childKey}, message: MSG_SUCCESS });
   } catch (e) {
     if (e) {
       console.error(e);

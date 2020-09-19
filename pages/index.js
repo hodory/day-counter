@@ -85,7 +85,7 @@ export default function Home() {
           dateDiffMilli={dateDiffFromCurrent}
           getDateDiffFromStartDate={getDateDiffFromStartDate}
         />
-        <SaveButton startTime={startTime} targetDateTime={dateTime} />
+        <SaveButton startDateTime={startTime} targetDateTime={dateTime} />
       </div>
     </Container>
   );
